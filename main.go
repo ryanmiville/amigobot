@@ -1,13 +1,15 @@
 package main
 
 import (
-	"encoding/json"
+	"bytes"
 	"flag"
 	"fmt"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
+
+	"github.com/olekukonko/tablewriter"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -30,10 +32,8 @@ func main() {
 		return
 	}
 
-	// Register the messageCreate func as a callback for MessageCreate events.
 	dg.AddHandler(messageCreate)
 
-	// Open a websocket connection to Discord and begin listening.
 	err = dg.Open()
 	if err != nil {
 		fmt.Println("error opening connection,", err)
@@ -49,23 +49,78 @@ func main() {
 }
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
-	// Ignore all messages created by the bot itself
-	// This isn't required in this specific example but it's a good practice.
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
-	// If the message is "ping" reply with "Pong!"
 	if strings.HasPrefix(m.Content, "?mfp") {
 		diary, err := GetDiary(m.Content[5:])
 		if err != nil {
 			s.ChannelMessageSend(m.ChannelID, err.Error())
 			return
 		}
-		out, err := json.Marshal(diary)
-		if err != nil {
-			panic(err)
-		}
 
-		s.ChannelMessageSend(m.ChannelID, string(out))
+		s.ChannelMessageSend(m.ChannelID, diaryMessage(diary))
 	}
 }
+
+func diaryMessage(diary *Diary) string {
+	buffer := new(bytes.Buffer)
+	table := tablewriter.NewWriter(buffer)
+	table.SetColWidth(18)
+	table.SetHeader([]string{"Food", "Calories"})
+	table.SetRowLine(true)
+	for _, v := range formatTableData(diary) {
+		table.Append(v)
+	}
+	table.Render()
+	return "```" + buffer.String() + "```"
+}
+
+func formatTableData(diary *Diary) [][]string {
+	var data [][]string
+	meals := []string{"Breakfast", "Lunch", "Dinner", "Snacks"}
+	for _, m := range meals {
+		if f, ok := diary.Meals[m]; ok {
+			data = append(data, []string{m})
+			data = addFoods(data, f)
+		}
+	}
+	data = append(data, []string{"Total", diary.Total.Calories})
+	return data
+}
+
+func addFoods(data [][]string, foods []Food) [][]string {
+	for _, food := range foods {
+		name := formatFoodName(food.Name)
+		data = append(data, []string{name, food.Calories})
+	}
+	return data
+}
+
+func formatFoodName(name string) string {
+	strippedBrandSlice := strings.SplitN(name, "- ", 2)
+	stripped := strippedBrandSlice[len(strippedBrandSlice)-1]
+	if len(stripped) > 32 {
+		return stripped[:30] + "..."
+	}
+	return stripped
+}
+
+/*
+┌───────────────────┬────────┐
+│Foods              │Calories│
+├───────────────────┴────────┤
+│Breakfast                   │
+├───────────────────┬────────┤
+│Honey Wheat  Bread,│140     │
+│2 slice            │        │
+├───────────────────┼────────┤
+│Hardwood     smoked│135     │
+│bacon, 3 slices    │        │
+├───────────────────┼────────┤
+│Eggs, 2 egg (50g)  │140     │
+├───────────────────┼────────┤
+│TOTAL:             │415     │
+└───────────────────┴────────┘
+
+*/

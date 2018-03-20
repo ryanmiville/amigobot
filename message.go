@@ -12,7 +12,7 @@ import (
 
 //NewCaloriesMessage builds the table of foods and calories for the diary
 func NewCaloriesMessage(diary *Diary) string {
-	message := diaryMessage(diary)
+	message := calsMessage(diary)
 	if len(message) > 2000 {
 		totalStart := len(message) - 102
 		return "```" + message[totalStart:]
@@ -20,7 +20,7 @@ func NewCaloriesMessage(diary *Diary) string {
 	return message
 }
 
-//NewMacrosMessage fdsa
+//NewMacrosMessage builds a table of macros for the diary
 func NewMacrosMessage(diary *Diary) string {
 	buffer := new(bytes.Buffer)
 	table := tablewriter.NewWriter(buffer)
@@ -43,7 +43,7 @@ func NewMacrosMessage(diary *Diary) string {
 	return "```" + buffer.String() + "```"
 }
 
-func diaryMessage(diary *Diary) string {
+func calsMessage(diary *Diary) string {
 	buffer := new(bytes.Buffer)
 	table := tablewriter.NewWriter(buffer)
 	table.SetColWidth(17)
@@ -93,43 +93,3 @@ func asInt(macro string) int {
 	}
 	return m
 }
-
-/*
-+-------------------+----------+
-|       FOOD        | CALORIES |
-+-------------------+----------+
-| BREAKFAST         |          |
-+-------------------+----------+
-| Unsweetened       |       45 |
-| Vanilla Almond    |          |
-| Mil...            |          |
-+-------------------+----------+
-| Whey Protein      |      110 |
-| Vanilla, 31 grams |          |
-+-------------------+----------+
-| Thick Sliced      |      120 |
-| Bacon (80 Cal     |          |
-| Per...            |          |
-+-------------------+----------+
-| 1 Large Egg, 3    |      210 |
-| egg (50g)         |          |
-+-------------------+----------+
-| LUNCH             |          |
-+-------------------+----------+
-| Butter, 1 T.      |      100 |
-+-------------------+----------+
-| Chicken Breast,   |      660 |
-| 1.5 lb(s)         |          |
-+-------------------+----------+
-| DINNER            |          |
-+-------------------+----------+
-| shredded sharp    |      167 |
-| cheddar , 1.5     |          |
-| o...              |          |
-+-------------------+----------+
-| Beef Smoked       |      280 |
-| Sausage, 5 oz.    |          |
-+-------------------+----------+
-| Total             | 1,692    |
-+-------------------+----------+
-*/

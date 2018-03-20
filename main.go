@@ -50,40 +50,18 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 	if strings.HasPrefix(m.Content, "?cals") {
-		diary, err := GetDiary(m.Content[6:])
-		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, err.Error())
-			return
-		}
-
-		s.ChannelMessageSend(m.ChannelID, NewCaloriesMessage(diary))
+		mfpMessage(s, m, m.Content[6:], NewCaloriesMessage)
 	}
-
 	if strings.HasPrefix(m.Content, "?macros") {
-		diary, err := GetDiary(m.Content[8:])
-		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, err.Error())
-			return
-		}
-		s.ChannelMessageSend(m.ChannelID, NewMacrosMessage(diary))
+		mfpMessage(s, m, m.Content[8:], NewMacrosMessage)
 	}
 }
 
-/*
-┌───────────────────┬────────┐
-│Foods              │Calories│
-├───────────────────┴────────┤
-│Breakfast                   │
-├───────────────────┬────────┤
-│Honey Wheat  Bread,│140     │
-│2 slice            │        │
-├───────────────────┼────────┤
-│Hardwood     smoked│135     │
-│bacon, 3 slices    │        │
-├───────────────────┼────────┤
-│Eggs, 2 egg (50g)  │140     │
-├───────────────────┼────────┤
-│TOTAL:             │415     │
-└───────────────────┴────────┘
-
-*/
+func mfpMessage(s *discordgo.Session, m *discordgo.MessageCreate, username string, fn func(*Diary) string) {
+	diary, err := GetDiary(username)
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, err.Error())
+		return
+	}
+	s.ChannelMessageSend(m.ChannelID, fn(diary))
+}

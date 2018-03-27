@@ -2,12 +2,19 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/olekukonko/tablewriter"
 )
+
+type macroPercentages struct {
+	carbs   int
+	protein int
+	fat     int
+}
 
 //NewCaloriesMessage builds the table of foods and calories for the diary
 func NewCaloriesMessage(diary *Diary) string {
@@ -21,42 +28,38 @@ func NewCaloriesMessage(diary *Diary) string {
 
 //NewMacrosMessage builds a table of macros for the diary
 func NewMacrosMessage(diary *Diary) string {
-	buffer := new(bytes.Buffer)
-	table := tablewriter.NewWriter(buffer)
-	table.SetColWidth(10)
-	table.SetHeader([]string{"Macros", "Grams", "Percent"})
-	table.SetRowLine(true)
+	table, buffer := newTable([]string{"Macros", "Grams", "Percent"}, 10)
 
-	carbs, cErr := parseMacro(diary.Total.Carbs)
-	protein, pErr := parseMacro(diary.Total.Protein)
-	fat, fErr := parseMacro(diary.Total.Fat)
-	if cErr != nil || pErr != nil || fErr != nil {
+	m, err := newMacroPercentages(diary)
+	if err != nil {
 		return "Error parsing macros"
 	}
 
-	total := carbs + protein + fat
-	cp := (100 * carbs) / total
-	pp := (100 * protein) / total
-	fp := (100 * fat) / total
-
-	table.Append([]string{"Carbs", diary.Total.Carbs, fmt.Sprintf("%d%%", cp)})
-	table.Append([]string{"Protein", diary.Total.Protein, fmt.Sprintf("%d%%", pp)})
-	table.Append([]string{"Fat", diary.Total.Fat, fmt.Sprintf("%d%%", fp)})
+	table.Append([]string{"Carbs", diary.Total.Carbs, fmt.Sprintf("%d%%", m.carbs)})
+	table.Append([]string{"Protein", diary.Total.Protein, fmt.Sprintf("%d%%", m.protein)})
+	table.Append([]string{"Fat", diary.Total.Fat, fmt.Sprintf("%d%%", m.fat)})
 	table.Render()
 	return "```" + buffer.String() + "```"
 }
 
 func calsMessage(diary *Diary) string {
-	buffer := new(bytes.Buffer)
-	table := tablewriter.NewWriter(buffer)
-	table.SetColWidth(17)
-	table.SetHeader([]string{"Food", "Calories"})
-	table.SetRowLine(true)
+	table, buffer := newTable([]string{"Food", "Calories"}, 17)
+
 	for _, v := range formatTableData(diary) {
 		table.Append(v)
 	}
+
 	table.Render()
 	return "```" + buffer.String() + "```"
+}
+
+func newTable(headers []string, colWidth int) (*tablewriter.Table, *bytes.Buffer) {
+	buffer := new(bytes.Buffer)
+	table := tablewriter.NewWriter(buffer)
+	table.SetColWidth(colWidth)
+	table.SetHeader(headers)
+	table.SetRowLine(true)
+	return table, buffer
 }
 
 func formatTableData(diary *Diary) [][]string {
@@ -89,6 +92,24 @@ func formatFoodName(name string) string {
 	return stripped
 }
 
+func newMacroPercentages(diary *Diary) (macroPercentages, error) {
+	m := macroPercentages{}
+	carbs, cErr := parseMacro(diary.Total.Carbs)
+	protein, pErr := parseMacro(diary.Total.Protein)
+	fat, fErr := parseMacro(diary.Total.Fat)
+	if cErr != nil || pErr != nil || fErr != nil {
+		return m, errors.New("Error parsing macros")
+	}
+
+	total := carbs + protein + fat
+	m = macroPercentages{
+		carbs:   (100 * carbs) / total,
+		protein: (100 * protein) / total,
+		fat:     (100 * fat) / total,
+	}
+
+	return m, nil
+}
 func parseMacro(macro string) (int, error) {
 	return strconv.Atoi(macro[:len(macro)-1])
 }

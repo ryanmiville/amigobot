@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 
@@ -28,9 +27,13 @@ func NewMacrosMessage(diary *Diary) string {
 	table.SetHeader([]string{"Macros", "Grams", "Percent"})
 	table.SetRowLine(true)
 
-	carbs := asInt(diary.Total.Carbs)
-	protein := asInt(diary.Total.Protein)
-	fat := asInt(diary.Total.Fat)
+	carbs, cErr := parseMacro(diary.Total.Carbs)
+	protein, pErr := parseMacro(diary.Total.Protein)
+	fat, fErr := parseMacro(diary.Total.Fat)
+	if cErr != nil || pErr != nil || fErr != nil {
+		return "Error parsing macros"
+	}
+
 	total := carbs + protein + fat
 	cp := (100 * carbs) / total
 	pp := (100 * protein) / total
@@ -86,10 +89,6 @@ func formatFoodName(name string) string {
 	return stripped
 }
 
-func asInt(macro string) int {
-	m, err := strconv.Atoi(macro[:len(macro)-1])
-	if err != nil {
-		log.Fatal(err)
-	}
-	return m
+func parseMacro(macro string) (int, error) {
+	return strconv.Atoi(macro[:len(macro)-1])
 }

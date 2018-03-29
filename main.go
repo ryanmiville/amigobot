@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/ryanmiville/amigo-bot/greet"
 	"github.com/ryanmiville/amigo-bot/mfp"
 )
 
@@ -18,8 +19,9 @@ import (
 type MessageHandlerFunc func(*discordgo.Session, *discordgo.MessageCreate)
 
 var commands = map[string]MessageHandlerFunc{
-	mfp.Cals:   mfp.HandleCalsMessage,
-	mfp.Macros: mfp.HandleMacrosMessage,
+	mfp.Cals:    mfp.HandleCalsMessage,
+	mfp.Macros:  mfp.HandleMacrosMessage,
+	greet.Greet: greet.HandleGreetMessage,
 }
 
 // Variables used for command line parameters

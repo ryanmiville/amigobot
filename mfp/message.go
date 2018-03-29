@@ -71,7 +71,7 @@ func newMacrosMessage(username string) (string, error) {
 	table, buffer := newTable([]string{"Macros", "Grams", "Percent"}, 10)
 	m, err := newMacroPercentages(d)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 	table.Append([]string{"Carbs", d.total.carbs, fmt.Sprintf("%d%%", m.carbs)})
 	table.Append([]string{"Protein", d.total.protein, fmt.Sprintf("%d%%", m.protein)})

@@ -11,22 +11,30 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-//Commands that trigger a message handle
-const (
-	Cals   = "?cals"
-	Macros = "?macros"
-)
+//CalsMessageHandler handles ?cals [username] messages
+type CalsMessageHandler struct{}
 
-//HandleCalsMessage is triggered by the Cals command and sends a table
-//of the foods and calories of the day
-func HandleCalsMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
-	handleMfpMessage(s, m, Cals, newCaloriesMessage)
+//Command is the trigger for the cals message
+func (h *CalsMessageHandler) Command() string {
+	return "?cals"
 }
 
-//HandleMacrosMessage is triggered by the Macros command and sends a table
-//of the macro grams and percentages of the day
-func HandleMacrosMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
-	handleMfpMessage(s, m, Macros, newMacrosMessage)
+//MessageHandle sends a table of the foods and calories of the day
+func (h *CalsMessageHandler) MessageHandle(s *discordgo.Session, m *discordgo.MessageCreate) {
+	handleMfpMessage(s, m, h.Command(), newCaloriesMessage)
+}
+
+//MacrosMessageHandler handles ?macros [username] messages
+type MacrosMessageHandler struct{}
+
+//Command is the trigger for the Macros message
+func (h *MacrosMessageHandler) Command() string {
+	return "?macros"
+}
+
+//MessageHandle sends a table of the macro grams and percentages of the day
+func (h *MacrosMessageHandler) MessageHandle(s *discordgo.Session, m *discordgo.MessageCreate) {
+	handleMfpMessage(s, m, h.Command(), newMacrosMessage)
 }
 
 func handleMfpMessage(s *discordgo.Session, m *discordgo.MessageCreate, cmd string, fn func(string) (string, error)) {

@@ -13,15 +13,21 @@ import (
 	"github.com/ryanmiville/amigo-bot/mfp"
 )
 
-//MessageHandlerFunc is the signature of a function that is triggered by
-//a discord message. These functions should live in other packages with the
-//command that triggers them, and both should be added to the 'commands' map below.
-type MessageHandlerFunc func(*discordgo.Session, *discordgo.MessageCreate)
+//MessageHandler describes a struct that is able to handle channel messages
+type MessageHandler interface {
+	//Command is the string that triggers MessageHandle
+	//if at the beginning of the message content
+	Command() string
+	//MessageHandle is the action that is taken once the command has been triggered
+	MessageHandle(*discordgo.Session, *discordgo.MessageCreate)
+}
 
-var commands = map[string]MessageHandlerFunc{
-	mfp.Cals:    mfp.HandleCalsMessage,
-	mfp.Macros:  mfp.HandleMacrosMessage,
-	greet.Greet: greet.HandleGreetMessage,
+//handlers is the list of MessageHandlers that will be checked for every message
+//sent in the channel (except the ones amigo-bot sends itself)
+var handlers = []MessageHandler{
+	&mfp.CalsMessageHandler{},
+	&mfp.MacrosMessageHandler{},
+	&greet.MessageHandler{},
 }
 
 // Variables used for command line parameters
@@ -60,9 +66,9 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
-	for cmd, fn := range commands {
-		if strings.HasPrefix(m.Content, cmd) {
-			fn(s, m)
+	for _, h := range handlers {
+		if strings.HasPrefix(m.Content, h.Command()) {
+			h.MessageHandle(s, m)
 		}
 	}
 }

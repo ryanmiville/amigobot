@@ -6,13 +6,16 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-//Greet command
-const (
-	Greet = "?greet"
-)
+//MessageHandler handles the ?greet [name] command
+type MessageHandler struct{}
 
-//HandleGreetMessage is triggered by the greet command and greets the person specified
-func HandleGreetMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
+//Command is the trigger for the greet message
+func (h *MessageHandler) Command() string {
+	return "?greet"
+}
+
+//MessageHandle greets the person specified
+func (h *MessageHandler) MessageHandle(s *discordgo.Session, m *discordgo.MessageCreate) {
 	content := strings.SplitN(m.Content, " ", 2)
 	if len(content) < 2 {
 		s.ChannelMessageSend(m.ChannelID, "I don't know who to greet 😕")

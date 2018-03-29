@@ -9,7 +9,18 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/ryanmiville/amigo-bot/mfp"
 )
+
+//MessageHandlerFunc is the signature of a function that is triggered by
+//a discord message. These functions should live in other packages with the
+//command that triggers them, and both should be added to the 'commands' map below.
+type MessageHandlerFunc func(*discordgo.Session, *discordgo.MessageCreate)
+
+var commands = map[string]MessageHandlerFunc{
+	mfp.Cals:   mfp.HandleCalsMessage,
+	mfp.Macros: mfp.HandleMacrosMessage,
+}
 
 // Variables used for command line parameters
 var (
@@ -17,7 +28,6 @@ var (
 )
 
 func init() {
-
 	flag.StringVar(&Token, "t", "", "Bot Token")
 	flag.Parse()
 }
@@ -48,19 +58,9 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
-	if strings.HasPrefix(m.Content, "?cals") {
-		mfpMessage(s, m, m.Content[6:], NewCaloriesMessage)
+	for cmd, fn := range commands {
+		if strings.HasPrefix(m.Content, cmd) {
+			fn(s, m)
+		}
 	}
-	if strings.HasPrefix(m.Content, "?macros") {
-		mfpMessage(s, m, m.Content[8:], NewMacrosMessage)
-	}
-}
-
-func mfpMessage(s *discordgo.Session, m *discordgo.MessageCreate, username string, fn func(*Diary) string) {
-	diary, err := GetDiary(username)
-	if err != nil {
-		s.ChannelMessageSend(m.ChannelID, err.Error())
-		return
-	}
-	s.ChannelMessageSend(m.ChannelID, fn(diary))
 }

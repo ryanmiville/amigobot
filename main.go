@@ -11,6 +11,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/ryanmiville/amigo-bot/greet"
 	"github.com/ryanmiville/amigo-bot/mfp"
+	"github.com/ryanmiville/amigo-bot/yn"
 )
 
 //MessageHandler describes a struct that is able to handle channel messages

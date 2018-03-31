@@ -27,6 +27,7 @@ type MessageHandler interface {
 var handlers = []MessageHandler{
 	&mfp.CalsMessageHandler{},
 	&mfp.MacrosMessageHandler{},
+	&yn.MessageHandler{},
 	&greet.MessageHandler{},
 }
 

@@ -16,7 +16,7 @@ type CalsMessageHandler struct{}
 
 //Command is the trigger for the cals message
 func (h *CalsMessageHandler) Command() string {
-	return "?cals"
+	return "?cals "
 }
 
 //MessageHandle sends a table of the foods and calories of the day
@@ -29,7 +29,7 @@ type MacrosMessageHandler struct{}
 
 //Command is the trigger for the Macros message
 func (h *MacrosMessageHandler) Command() string {
-	return "?macros"
+	return "?macros "
 }
 
 //MessageHandle sends a table of the macro grams and percentages of the day
@@ -38,12 +38,7 @@ func (h *MacrosMessageHandler) MessageHandle(s *discordgo.Session, m *discordgo.
 }
 
 func handleMfpMessage(s *discordgo.Session, m *discordgo.MessageCreate, cmd string, fn func(string) (string, error)) {
-	content := strings.SplitN(m.Content, " ", 2)
-	if len(content) < 2 {
-		s.ChannelMessageSend(m.ChannelID, "No username provided")
-		return
-	}
-	username := content[1]
+	username := strings.TrimPrefix(m.Content, cmd)
 	message, err := fn(username)
 	if err != nil {
 		s.ChannelMessageSend(m.ChannelID, err.Error())

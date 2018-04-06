@@ -7,6 +7,6 @@ type Handler interface {
 	//Command is the string that triggers MessageHandle
 	//if at the beginning of the message content
 	Command() string
-	//MessageHandle is the action that is taken once the command has been triggered
+	//Handle is the action that is taken once the command has been triggered
 	Handle(*discordgo.Session, *discordgo.MessageCreate)
 }

@@ -11,7 +11,7 @@ Display a table of the current day's foods and calories from the MyFitnessPal ac
 
 ![?cals screenshot](https://user-images.githubusercontent.com/2359050/38431591-b908c16c-3992-11e8-82a7-2272a7133183.png)
 ## ?macros [username]
-Display a table of the current day's macros from the MyFitnessPal account for the given username (your accoutn _must_ be public for this to work) 
+Display a table of the current day's macros from the MyFitnessPal account for the given username (your account _must_ be public for this to work) 
 
 ![?macros screenshot](https://user-images.githubusercontent.com/2359050/38431608-c639a45a-3992-11e8-8696-b8e2a9d14e29.png)
 ## ?greet [someone]

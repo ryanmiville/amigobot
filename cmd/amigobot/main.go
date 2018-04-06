@@ -9,27 +9,20 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/ryanmiville/amigo-bot/greet"
-	"github.com/ryanmiville/amigo-bot/mfp"
-	"github.com/ryanmiville/amigo-bot/yn"
+	"github.com/ryanmiville/amigobot"
+	"github.com/ryanmiville/amigobot/greet"
+	"github.com/ryanmiville/amigobot/mfp/cals"
+	"github.com/ryanmiville/amigobot/mfp/macros"
+	"github.com/ryanmiville/amigobot/yn"
 )
 
-//MessageHandler describes a struct that is able to handle channel messages
-type MessageHandler interface {
-	//Command is the string that triggers MessageHandle
-	//if at the beginning of the message content
-	Command() string
-	//MessageHandle is the action that is taken once the command has been triggered
-	MessageHandle(*discordgo.Session, *discordgo.MessageCreate)
-}
-
 //handlers is the list of MessageHandlers that will be checked for every message
-//sent in the channel (except the ones amigo-bot sends itself)
-var handlers = []MessageHandler{
-	&mfp.CalsMessageHandler{},
-	&mfp.MacrosMessageHandler{},
-	&yn.MessageHandler{},
-	&greet.MessageHandler{},
+//sent in the channel (except the ones amigobot sends itself)
+var handlers = []amigobot.Handler{
+	&cals.Handler{},
+	&macros.Handler{},
+	&yn.Handler{},
+	&greet.Handler{},
 }
 
 // Variables used for command line parameters
@@ -70,7 +63,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	for _, h := range handlers {
 		if strings.HasPrefix(m.Content, h.Command()) {
-			h.MessageHandle(s, m)
+			h.Handle(s, m)
 		}
 	}
 }

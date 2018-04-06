@@ -6,37 +6,40 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type diary struct {
-	meals map[string][]food
-	total food
+//Diary is the day's food diary for the user
+type Diary struct {
+	Meals map[string][]Food
+	Total Food
 }
 
-type food struct {
-	name        string
-	calories    string
-	carbs       string
-	fat         string
-	protein     string
-	cholesterol string
-	sodium      string
-	sugars      string
-	fiber       string
+//Food is a name and its nutrition
+type Food struct {
+	Name        string
+	Calories    string
+	Carbs       string
+	Fat         string
+	Protein     string
+	Cholesterol string
+	Sodium      string
+	Sugars      string
+	Fiber       string
 }
 
-func newDiary(username string) (*diary, error) {
-	d := diary{}
+//NewDiary fetches and builds the Diary for the given username
+func NewDiary(username string) (*Diary, error) {
+	d := Diary{}
 	doc, err := goquery.NewDocument("http://www.myfitnesspal.com/reports/printable_diary/" + username)
 	if err != nil {
 		return &d, err
 	}
-	d.meals = buildMeals(doc)
-	d.total, err = buildTotal(doc)
+	d.Meals = buildMeals(doc)
+	d.Total, err = buildTotal(doc)
 	return &d, err
 }
 
-func buildMeals(doc *goquery.Document) map[string][]food {
+func buildMeals(doc *goquery.Document) map[string][]Food {
 	var meal = "Breakfast"
-	var meals = make(map[string][]food)
+	var meals = make(map[string][]Food)
 	doc.Find("tbody").Find("tr").Each(func(i int, tr *goquery.Selection) {
 		entry := entryData(tr)
 		if len(entry) == 1 {
@@ -49,11 +52,11 @@ func buildMeals(doc *goquery.Document) map[string][]food {
 	return meals
 }
 
-func buildTotal(doc *goquery.Document) (food, error) {
+func buildTotal(doc *goquery.Document) (Food, error) {
 	totalRow := doc.Find("tfoot").Find("tr")
 	entry := entryData(totalRow)
 	if len(entry) == 0 {
-		return food{}, errors.New("Gotta log, friendo")
+		return Food{}, errors.New("Gotta log, friendo")
 	}
 	return newFood(entry), nil
 }
@@ -66,16 +69,16 @@ func entryData(entry *goquery.Selection) []string {
 	return data
 }
 
-func newFood(data []string) food {
-	return food{
-		name:        data[0],
-		calories:    data[1],
-		carbs:       data[2],
-		fat:         data[3],
-		protein:     data[4],
-		cholesterol: data[5],
-		sodium:      data[6],
-		sugars:      data[7],
-		fiber:       data[8],
+func newFood(data []string) Food {
+	return Food{
+		Name:        data[0],
+		Calories:    data[1],
+		Carbs:       data[2],
+		Fat:         data[3],
+		Protein:     data[4],
+		Cholesterol: data[5],
+		Sodium:      data[6],
+		Sugars:      data[7],
+		Fiber:       data[8],
 	}
 }

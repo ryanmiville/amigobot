@@ -1,6 +1,7 @@
 # amigobot
-discord bot for mnt amigos
+[![GoDoc Widget]][GoDoc]
 
+discord bot for mnt amigos
 # Commands
 ## ?yn [prompt]
 Send a yes/no question to **@everyone** with prepopulated 👍 👎 reactions
@@ -24,3 +25,6 @@ Greet whomever is specified. This command is mostly for example purposes for add
 3. Add an instance of your `Handler` implementation to the `handlers` array in [main.go](cmd/amigobot/main.go)
 
 See [greet.go](greet/greet.go) as a very simple example.
+
+[GoDoc]: https://godoc.org/github.com/ryanmiville/amigobot
+[GoDoc Widget]: https://godoc.org/github.com/ryanmiville/amigobot?status.svg

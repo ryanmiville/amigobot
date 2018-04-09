@@ -47,6 +47,7 @@ pipeline {
           container('go') {
             dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot') {
               checkout scm
+              sh "git pull"
               // so we can retrieve the version in later steps
               sh "echo \$(jx-release-version) > VERSION"
             }
@@ -59,6 +60,7 @@ pipeline {
                 sh "make tag"
             }
             dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot') {
+              sh "go get -u golang.org/x/vgo" 
               sh "make build"
               sh "docker build -t \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:\$(cat VERSION) ."
               sh "docker push \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:\$(cat VERSION)"

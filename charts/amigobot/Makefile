@@ -26,7 +26,7 @@ release: clean
 	helm dependency build
 	helm lint
 	helm init --client-only
-	helm package .
+	helm package --set botToken=$(BOT_TOKEN) .
 	curl --fail -u $(CHARTMUSEUM_CREDS_USR):$(CHARTMUSEUM_CREDS_PSW) --data-binary "@$(NAME)-$(shell sed -n 's/^version: //p' Chart.yaml).tgz" $(CHART_REPO)/api/charts
 	rm -rf ${NAME}*.tgz%
 

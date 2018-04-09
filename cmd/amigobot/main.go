@@ -1,12 +1,12 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"log"
+	"net/http"
 	"os"
-	"os/signal"
 	"strings"
-	"syscall"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/ryanmiville/amigobot"
@@ -27,16 +27,11 @@ var handlers = []amigobot.Handler{
 
 // Variables used for command line parameters
 var (
-	Token string
+	lastHeartbeat time.Time
 )
 
-func init() {
-	flag.StringVar(&Token, "t", "", "Bot Token")
-	flag.Parse()
-}
-
 func main() {
-	dg, err := discordgo.New("Bot " + Token)
+	dg, err := discordgo.New("Bot " + os.Getenv("BOT_TOKEN"))
 	if err != nil {
 		fmt.Println("error creating Discord session,", err)
 		return
@@ -51,10 +46,18 @@ func main() {
 	}
 	defer dg.Close()
 
-	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
-	<-sc
+	h := http.NewServeMux()
+	h.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if lastHeartbeat == dg.LastHeartbeatAck {
+			http.Error(w, "Have not received heartbeat message for two consecutive health checks", http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	})
+	err = http.ListenAndServe(":8080", h)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {

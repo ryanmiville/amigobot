@@ -22,8 +22,8 @@ resources:
     memory: 128Mi
 probePath: /
 livenessProbe:
-  initialDelaySeconds: 60
-  periodSeconds: 10
+  initialDelaySeconds: 30
+  periodSeconds: 60
   successThreshold: 1
   timeoutSeconds: 1
 readinessProbe:
@@ -31,3 +31,4 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 terminationGracePeriodSeconds: 10
+botToken: INJECT_ME

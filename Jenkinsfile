@@ -8,6 +8,7 @@ pipeline {
       GIT_PROVIDER      = ''
       GIT_CREDS         = credentials('jenkins-x-git')
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
+      BOT_TOKEN         = credentials('BOT_TOKEN')
       GIT_USERNAME      = "$GIT_CREDS_USR"
       GIT_API_TOKEN     = "$GIT_CREDS_PSW"
     }

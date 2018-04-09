@@ -19,6 +19,9 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}
+        env:
+          - name: BOT_TOKEN
+            value: {{ .Values.botToken }}
         livenessProbe:
           httpGet:
             path: {{ .Values.probePath }}

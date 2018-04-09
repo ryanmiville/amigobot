@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-GO := GO15VENDOREXPERIMENT=1 go
+GO := vgo
 NAME := amigobot
 OS := $(shell uname)
 MAIN_GO := cmd/amigobot/main.go

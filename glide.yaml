@@ -1,0 +1,7 @@
+package: github.com/ryanmiville/amigobot
+import:
+- package: github.com/PuerkitoBio/goquery
+  version: ^1.4.0
+- package: github.com/bwmarrin/discordgo
+  version: ^0.18.0
+- package: github.com/olekukonko/tablewriter

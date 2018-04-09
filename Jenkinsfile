@@ -3,9 +3,9 @@ pipeline {
         label "jenkins-go"
     }
     environment {
-      ORG               = ''
+      ORG               = 'ryanmiville'
       APP_NAME          = 'amigobot'
-      GIT_PROVIDER      = ''
+      GIT_PROVIDER      = 'github.com'
       GIT_CREDS         = credentials('jenkins-x-git')
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
       BOT_TOKEN         = credentials('bot-token')

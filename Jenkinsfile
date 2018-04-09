@@ -23,16 +23,16 @@ pipeline {
           HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
         }
         steps {
-          dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot') {
+          dir ('/go/src/github.com/ryanmiville/amigobot') {
             checkout scm
-            container('go') {
+            container('golang') {
               sh "make linux"
               sh "docker build -t \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:$PREVIEW_VERSION ."
               sh "docker push \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:$PREVIEW_VERSION"
             }
           }
-          dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot/charts/preview') {
-            container('go') {
+          dir ('/go/src/github.com/ryanmiville/amigobot/charts/preview') {
+            container('golang') {
               sh "make preview"
               sh "jx preview --app $APP_NAME --dir ../.."
             }
@@ -44,13 +44,13 @@ pipeline {
           branch 'master'
         }
         steps {
-          container('go') {
-            dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot') {
+          container('golang') {
+            dir ('/go/src/github.com/ryanmiville/amigobot') {
               checkout scm
               // so we can retrieve the version in later steps
               sh "echo \$(jx-release-version) > VERSION"
             }
-            dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot/charts/amigobot') {
+            dir ('/go/src/github.com/ryanmiville/amigobot/charts/amigobot') {
                 // ensure we're not on a detached head
                 sh "git checkout master"
                 // until we switch to the new kubernetes / jenkins credential implementation use git credentials store
@@ -58,7 +58,7 @@ pipeline {
 
                 sh "make tag"
             }
-            dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot') {
+            dir ('/go/src/github.com/ryanmiville/amigobot') {
               sh "go get -u golang.org/x/vgo" 
               sh "make build"
               sh "docker build -t \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:\$(cat VERSION) ."
@@ -72,8 +72,8 @@ pipeline {
           branch 'master'
         }
         steps {
-          dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot/charts/amigobot') {
-            container('go') {
+          dir ('/go/src/github.com/ryanmiville/amigobot/charts/amigobot') {
+            container('golang') {
               sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
               // release the helm chart

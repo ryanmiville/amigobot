@@ -47,7 +47,6 @@ pipeline {
           container('go') {
             dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot') {
               checkout scm
-              sh "git pull"
               // so we can retrieve the version in later steps
               sh "echo \$(jx-release-version) > VERSION"
             }

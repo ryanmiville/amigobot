@@ -31,4 +31,4 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 terminationGracePeriodSeconds: 10
-botToken: INJECT_ME
+botToken: MzAxNDMwMzcxNTI0OTM1Njky.DZxXIA.ADgAqfvu3nJm64CCdJmJ6P70EFU

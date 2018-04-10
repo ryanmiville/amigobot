@@ -8,7 +8,6 @@ pipeline {
       GIT_PROVIDER      = 'github.com'
       GIT_CREDS         = credentials('jenkins-x-git')
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
-      BOT_TOKEN         = credentials('bot-token')
       GIT_USERNAME      = "$GIT_CREDS_USR"
       GIT_API_TOKEN     = "$GIT_CREDS_PSW"
     }
@@ -59,7 +58,6 @@ pipeline {
                 sh "make tag"
             }
             dir ('/home/jenkins/go/src/github.com/ryanmiville/amigobot') {
-              sh "go get -u golang.org/x/vgo" 
               sh "make build"
               sh "docker build -t \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:\$(cat VERSION) ."
               sh "docker push \$JENKINS_X_DOCKER_REGISTRY_SERVICE_HOST:\$JENKINS_X_DOCKER_REGISTRY_SERVICE_PORT/$ORG/$APP_NAME:\$(cat VERSION)"

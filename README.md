@@ -19,12 +19,28 @@ Display a table of the current day's macros from the MyFitnessPal account for th
 Greet whomever is specified. This command is mostly for example purposes for adding commands to amigo-bot rather than providing any real utility
 
 ![?greet screenshot](https://user-images.githubusercontent.com/2359050/38431625-d3920ade-3992-11e8-91d0-3bb0b22d3f99.png)
-# To Add A New Command...
+
+# Contributing
+This project uses vgo for dependency management. Download and install it with `go get -u golang.org/x/vgo`
+
+Download the repo with `go get github.com/ryanmiville/amigobot`
+
+`cd $GOPATH/src/github.com/ryanmiville/amigobot/cmd/amigobot`
+
+`vgo build`
+
+You should now have all the dependencies necessary for the project.
+## To Add A New Command...
 1. Create a new package
-2. Implement the `Handler` interface [here](handler.go).
+2. Implement the `Handler` interface found [here](handler.go).
 3. Add an instance of your `Handler` implementation to the `handlers` array in [main.go](cmd/amigobot/main.go)
 
 See [greet.go](greet/greet.go) as a very simple example.
+
+## Running Locally
+In the `.../amigobot/cmd/amibot` directory, run `vgo install`
+
+Now you should be able to run the app with `amigobot -t [your-bot-token]
 
 [GoDoc]: https://godoc.org/github.com/ryanmiville/amigobot
 [GoDoc Widget]: https://godoc.org/github.com/ryanmiville/amigobot?status.svg

@@ -1,4 +1,4 @@
-package main // import "github.com/ryanmiville/amigobot/cmd/amigobot"
+package main
 
 import (
 	"flag"

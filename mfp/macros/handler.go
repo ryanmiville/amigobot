@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/ryanmiville/amigobot"
 	"github.com/ryanmiville/amigobot/mfp"
 )
 
@@ -18,7 +19,7 @@ func (h *Handler) Command() string {
 }
 
 //Handle sends a table of the macro grams and percentages of the day
-func (h *Handler) Handle(s *discordgo.Session, m *discordgo.MessageCreate) {
+func (h *Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 	mfp.Handle(s, m, h.Command(), newMacrosMessage)
 }
 

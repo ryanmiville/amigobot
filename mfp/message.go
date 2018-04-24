@@ -6,10 +6,11 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/olekukonko/tablewriter"
+	"github.com/ryanmiville/amigobot"
 )
 
 //Handle extracts some common boilerplate between ?cals and ?macros commands
-func Handle(s *discordgo.Session, m *discordgo.MessageCreate, cmd string, fn func(string) (string, error)) {
+func Handle(s amigobot.Session, m *discordgo.MessageCreate, cmd string, fn func(string) (string, error)) {
 	username := strings.TrimPrefix(m.Content, cmd)
 	message, err := fn(username)
 	if err != nil {

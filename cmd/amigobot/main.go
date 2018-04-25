@@ -12,6 +12,7 @@ import (
 	"github.com/ryanmiville/amigobot"
 	"github.com/ryanmiville/amigobot/greet"
 	"github.com/ryanmiville/amigobot/mfp/cals"
+	"github.com/ryanmiville/amigobot/mfp/htmlparse"
 	"github.com/ryanmiville/amigobot/mfp/macros"
 	"github.com/ryanmiville/amigobot/yn"
 )
@@ -19,8 +20,8 @@ import (
 //handlers is the list of MessageHandlers that will be checked for every message
 //sent in the channel (except the ones amigobot sends itself)
 var handlers = []amigobot.Handler{
-	&cals.Handler{},
-	&macros.Handler{},
+	&cals.Handler{Fetcher: htmlparse.Fetcher{}},
+	&macros.Handler{Fetcher: htmlparse.Fetcher{}},
 	&yn.Handler{},
 	&greet.Handler{},
 }

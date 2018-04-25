@@ -11,6 +11,8 @@ func TestGreet(t *testing.T) {
 	h := Handler{}
 	actual := &discordgo.Message{}
 	s := &mock.Session{
+		//Simply populate the 'actual' Message with values that would be sent with a real
+		//discord session. This way we can compare the message 'h' created with what we expect
 		ChannelMessageSendFn: func(channelId, content string) (*discordgo.Message, error) {
 			actual.Content = content
 			actual.ChannelID = channelId

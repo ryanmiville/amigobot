@@ -29,14 +29,18 @@ Download the repo with `go get github.com/ryanmiville/amigobot`
 ## To Add A New Command...
 1. Create a new package
 2. Implement the `Handler` interface found [here](handler.go).
+3. Write a companion test for your new `Handler`
 3. Add an instance of your `Handler` implementation to the `handlers` array in [main.go](cmd/amigobot/main.go)
 
 See [greet.go](greet/greet.go) as a very simple example.
 
+## Tests
+run all tests with `go test ./...` to verify you haven't broken any command. Again follow the [greet example](greet/greet_test.go) to see how to mock the use of a real discord session.
+
 ## Running Locally
 In the `.../amigobot/cmd/amibot` directory, run `go install`
 
-Now you should be able to run the app with `amigobot -t [your-bot-token]
+Now you should be able to run the app with `amigobot -t [your-bot-token]`
 
 [GoDoc]: https://godoc.org/github.com/ryanmiville/amigobot
 [GoDoc Widget]: https://godoc.org/github.com/ryanmiville/amigobot?status.svg

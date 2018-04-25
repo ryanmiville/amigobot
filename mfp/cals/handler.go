@@ -1,15 +1,19 @@
 package cals
 
 import (
+	"bytes"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/olekukonko/tablewriter"
 	"github.com/ryanmiville/amigobot"
 	"github.com/ryanmiville/amigobot/mfp"
 )
 
 //Handler handles ?cals [username] messages
-type Handler struct{}
+type Handler struct {
+	Fetcher mfp.Fetcher
+}
 
 //Command is the trigger for the cals message
 func (h *Handler) Command() string {
@@ -18,14 +22,21 @@ func (h *Handler) Command() string {
 
 //Handle sends a table of the foods and calories of the day
 func (h *Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
-	mfp.Handle(s, m, h.Command(), newCaloriesMessage)
+	username := strings.TrimPrefix(m.Content, h.Command())
+	d, err := h.Fetcher.Fetch(username)
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, err.Error())
+		return
+	}
+	message, err := newCaloriesMessage(d)
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, err.Error())
+		return
+	}
+	s.ChannelMessageSend(m.ChannelID, message)
 }
 
-func newCaloriesMessage(username string) (string, error) {
-	d, err := mfp.NewDiary(username)
-	if err != nil {
-		return "", err
-	}
+func newCaloriesMessage(d *mfp.Diary) (string, error) {
 	message := calsMessage(d)
 	if len(message) > 2000 {
 		totalStart := len(message) - 102
@@ -35,7 +46,11 @@ func newCaloriesMessage(username string) (string, error) {
 }
 
 func calsMessage(diary *mfp.Diary) string {
-	table, buffer := mfp.NewTable([]string{"Food", "Calories"}, 17)
+	buffer := new(bytes.Buffer)
+	table := tablewriter.NewWriter(buffer)
+	table.SetColWidth(17)
+	table.SetHeader([]string{"Food", "Calories"})
+	table.SetRowLine(true)
 	for _, v := range formatTableData(diary) {
 		table.Append(v)
 	}

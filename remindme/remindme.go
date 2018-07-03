@@ -12,7 +12,7 @@ import (
 //Handler handles the ?remindme [duration] command
 type Handler struct{}
 
-//Command is the frank
+//Command is the trigger for the remindme handler
 func (h *Handler) Command() string {
 	return "?remindme "
 }

@@ -14,6 +14,7 @@ import (
 	"github.com/ryanmiville/amigobot/mfp/cals"
 	"github.com/ryanmiville/amigobot/mfp/htmlparse"
 	"github.com/ryanmiville/amigobot/mfp/macros"
+	"github.com/ryanmiville/amigobot/remindme"
 	"github.com/ryanmiville/amigobot/yn"
 )
 
@@ -24,6 +25,7 @@ var handlers = []amigobot.Handler{
 	&macros.Handler{Fetcher: htmlparse.Fetcher{}},
 	&yn.Handler{},
 	&greet.Handler{},
+	&remindme.Handler{},
 }
 
 // Variables used for command line parameters

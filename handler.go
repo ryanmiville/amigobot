@@ -15,6 +15,11 @@ type Session interface {
 	// messageID : The message ID.
 	// emojiID   : Either the unicode emoji for the reaction, or a guild emoji identifier.
 	MessageReactionAdd(channelID, messageID, emojiID string) error
+
+	// ChannelMessagePin pins a message within a given channel.
+	// channelID: The ID of a channel.
+	// messageID: The ID of a message.
+	ChannelMessagePin(channelID, messageID string) (err error)
 }
 
 //Handler describes a struct that is able to handle channel messages

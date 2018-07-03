@@ -72,9 +72,9 @@ func newMacroPercentages(d *mfp.Diary) (macroPercentages, error) {
 	}
 	total := carbs + protein + fat
 	m = macroPercentages{
-		carbs:   (100 * carbs) / total,
-		protein: (100 * protein) / total,
-		fat:     (100 * fat) / total,
+		carbs:   (100.0 * carbs) / total,
+		protein: (100.0 * protein) / total,
+		fat:     (100.0 * fat) / total,
 	}
 	return m, nil
 }

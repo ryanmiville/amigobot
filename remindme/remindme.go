@@ -47,7 +47,7 @@ func (h *Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 
 //Returns substring until first space, or whole string if no space
 func ParseToFirstSpace(str string) string {
-	var durStr = str
+	var durStr = strings.TrimSpace(str)
 	if idx := strings.IndexByte(durStr, byte(' ')); idx >= 0 {
 		durStr = durStr[:idx]
 	}

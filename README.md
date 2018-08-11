@@ -20,6 +20,19 @@ Greet whomever is specified. This command is mostly for example purposes for add
 
 ![?greet screenshot](https://user-images.githubusercontent.com/2359050/38431625-d3920ade-3992-11e8-91d0-3bb0b22d3f99.png)
 
+## ?remindme duration [subject]
+Remind the user after a specified time delay. The time should be given in the format specified [here](https://golang.org/pkg/time/#ParseDuration), e.g. 10h35m21s. The bot will acknowledge the request with the specified time.
+
+![?remindme acknowledgement](https://user-images.githubusercontent.com/42191246/43987787-99a95fe6-9cf4-11e8-84ae-f3b06cd131d5.PNG)
+
+If no message is supplied, the invoking message will be pinned after the time has elapsed. 
+
+![?remindme with no subject screenshot](https://user-images.githubusercontent.com/42191246/43987786-999c9d92-9cf4-11e8-833c-47fef41bfde5.PNG)
+
+If a message is supplied,a message will be sent with the included reminder.
+
+![?remindme with subject screenshot](https://user-images.githubusercontent.com/42191246/43987788-99b82116-9cf4-11e8-8fe9-407febd0b850.PNG)
+
 # Contributing
 This project uses dep for dependency management. If you need to add a new dependency, [here](https://golang.github.io/dep/docs/installation.html) are instructions for installing it. Reference [the docs](https://golang.github.io/dep/docs/daily-dep.html#adding-a-new-dependency) for how to add dependencies. The current dependencies are packaged with the repo in the [vendor](https://github.com/ryanmiville/amigobot/tree/master/vendor) directory.
 

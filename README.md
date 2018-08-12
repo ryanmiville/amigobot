@@ -20,6 +20,11 @@ Greet whomever is specified. This command is mostly for example purposes for add
 
 ![?greet screenshot](https://user-images.githubusercontent.com/2359050/38431625-d3920ade-3992-11e8-91d0-3bb0b22d3f99.png)
 
+## ?decide option [ or option...] 
+Decide between the given options, delimited by " or "
+
+![?decide screenshot](https://user-images.githubusercontent.com/42191246/44006290-06b7a35c-9e50-11e8-9007-281e72530a9d.png)
+
 # Contributing
 This project uses dep for dependency management. If you need to add a new dependency, [here](https://golang.github.io/dep/docs/installation.html) are instructions for installing it. Reference [the docs](https://golang.github.io/dep/docs/daily-dep.html#adding-a-new-dependency) for how to add dependencies. The current dependencies are packaged with the repo in the [vendor](https://github.com/ryanmiville/amigobot/tree/master/vendor) directory.
 

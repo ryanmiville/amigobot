@@ -2,6 +2,7 @@ package decide
 
 import (
 	"math/rand"
+	"regexp"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
@@ -19,7 +20,7 @@ func (h *Handler) Command() string {
 //Handle decides the option from those specified
 func (h *Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 	options := strings.TrimPrefix(m.Content, h.Command())
-	optionsArr := strings.Split(options, " or ")
+	optionsArr := regexp.MustCompile(",(\\sor\\s+)?|(\\sor\\s+)").Split(options, -1)
 
 	var choice string
 	if len(optionsArr) <= 1 {

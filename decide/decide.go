@@ -2,7 +2,6 @@ package decide
 
 import (
 	"math/rand"
-	"regexp"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
@@ -12,7 +11,7 @@ import (
 //Handler handles the ?decide [option] or [option] ... command
 type Handler struct{}
 
-//Command is the trigger for the greet message
+//Command is the trigger for the decide message
 func (h *Handler) Command() string {
 	return "?decide "
 }
@@ -20,8 +19,7 @@ func (h *Handler) Command() string {
 //Handle decides the option from those specified
 func (h *Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 	options := strings.TrimPrefix(m.Content, h.Command())
-	optionsArr := regexp.MustCompile(",(\\sor\\s+)?|(\\sor\\s+)").Split(options, -1)
-
+	optionsArr := strings.Split(options, " or ")
 	var choice string
 	if len(optionsArr) <= 1 {
 		choice = "Do what makes you happy."

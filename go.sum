@@ -1,0 +1,17 @@
+github.com/PuerkitoBio/goquery v1.4.0 h1:13fV4AYmaSopdNp8KWDUlLyU5INklBkYk0tsTfxRO2U=
+github.com/PuerkitoBio/goquery v1.4.0/go.mod h1:T9ezsOHcCrDCgA8aF1Cqr3sSYbO/xgdy8/R/XiIMAhA=
+github.com/andybalholm/cascadia v1.0.0 h1:hOCXnnZ5A+3eVDX8pvgl4kofXv2ELss0bKcqRySc45o=
+github.com/andybalholm/cascadia v1.0.0/go.mod h1:GsXiBklL0woXo1j/WYWtSYYC4ouU9PqHO0sqidkEA4Y=
+github.com/bwmarrin/discordgo v0.18.0 h1:XopVQXCIFy7Cr2eT7NcYcm4k0l2PYX+AP5RUbIWX2/8=
+github.com/bwmarrin/discordgo v0.18.0/go.mod h1:5NIvFv5Z7HddYuXbuQegZ684DleQaCFqChP2iuBivJ8=
+github.com/gorilla/websocket v1.2.0 h1:VJtLvh6VQym50czpZzx07z/kw9EgAxI3x1ZB8taTMQQ=
+github.com/gorilla/websocket v1.2.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
+github.com/mattn/go-runewidth v0.0.2 h1:UnlwIPBGaTZfPQ6T1IGzPI0EkYAQmT9fAEJ/poFC63o=
+github.com/mattn/go-runewidth v0.0.2/go.mod h1:LwmH8dsx7+W8Uxz3IHJYH5QSwggIsqBzpuz5H//U1FU=
+github.com/olekukonko/tablewriter v0.0.0-20180418011723-d5dd8a50526a h1:wHDmMQT1L8SloVcCB3MUrNV2+VgC8geTmrOV0+cxmxo=
+github.com/olekukonko/tablewriter v0.0.0-20180418011723-d5dd8a50526a/go.mod h1:vsDQFd/mU46D+Z4whnwzcISnGGzXWMclvtLoiIKAKIo=
+golang.org/x/crypto v0.0.0-20180423110133-2b6c08872f4b h1:B3dUEniDg84ruO50HPgpo1ttLS4BGJsPI3E+ohCn0p0=
+golang.org/x/crypto v0.0.0-20180423110133-2b6c08872f4b/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
+golang.org/x/net v0.0.0-20180218175443-cbe0f9307d01/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
+golang.org/x/net v0.0.0-20180420171651-5f9ae10d9af5 h1:ylIG3jIeS45kB0W95N19kS62fwermjMYLIyybf8xh9M=
+golang.org/x/net v0.0.0-20180420171651-5f9ae10d9af5/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=

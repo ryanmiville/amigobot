@@ -12,6 +12,7 @@ import (
 	"github.com/ryanmiville/amigobot"
 	"github.com/ryanmiville/amigobot/decide"
 	"github.com/ryanmiville/amigobot/greet"
+	"github.com/ryanmiville/amigobot/help"
 	"github.com/ryanmiville/amigobot/mfp/cals"
 	"github.com/ryanmiville/amigobot/mfp/htmlparse"
 	"github.com/ryanmiville/amigobot/mfp/macros"
@@ -21,7 +22,7 @@ import (
 
 //handlers is the list of MessageHandlers that will be checked for every message
 //sent in the channel (except the ones amigobot sends itself)
-var handlers = []amigobot.Handler{
+var Handlers = []amigobot.Handler{
 	&cals.Handler{Fetcher: htmlparse.Fetcher{}},
 	&macros.Handler{Fetcher: htmlparse.Fetcher{}},
 	&yn.Handler{},
@@ -41,6 +42,8 @@ func init() {
 }
 
 func main() {
+	Handlers = append(Handlers, &help.Handler{Handlers: Handlers})
+
 	dg, err := discordgo.New("Bot " + Token)
 	if err != nil {
 		fmt.Println("error creating Discord session,", err)
@@ -66,7 +69,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
-	for _, h := range handlers {
+	for _, h := range Handlers {
 		if strings.HasPrefix(m.Content, h.Command()) {
 			h.Handle(s, m)
 		}

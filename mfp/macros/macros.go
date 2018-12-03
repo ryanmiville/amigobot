@@ -23,6 +23,11 @@ func (h *Handler) Command() string {
 	return "?macros "
 }
 
+//Usage how the command works
+func (h Handler) Usage() string {
+	return "Display a table of the current day's macros from the MyFitnessPal account for the given username (your account must be public for this to work)"
+}
+
 //Handle sends a table of the macro grams and percentages of the day
 func (h *Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 	username := strings.TrimPrefix(m.Content, h.Command())

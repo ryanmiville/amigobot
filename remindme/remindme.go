@@ -18,6 +18,13 @@ func (h *Handler) Command() string {
 	return "?remindme "
 }
 
+//Usage how the command works
+func (h Handler) Usage() string {
+	return `Remind the user after a specified time delay. The time should be given in a format like 10h35m21s. The bot will acknowledge the request with the specified time. 
+If no message is supplied, the invoking message will be pinned after the time has elapsed. 
+If a message is supplied,a message will be sent with the included reminder.`
+}
+
 //Handle parses the ?remindme message and notifies the user
 func (h *Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 	paramStr := strings.TrimPrefix(m.Content, h.Command())

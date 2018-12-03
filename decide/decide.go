@@ -16,6 +16,11 @@ func (h *Handler) Command() string {
 	return "?decide "
 }
 
+//Usage how the command works
+func (h Handler) Usage() string {
+	return "Decide between the given options, delimited by \" or \""
+}
+
 //Handle decides the option from those specified
 func (h *Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 	options := strings.TrimPrefix(m.Content, h.Command())

@@ -15,6 +15,11 @@ func (h *Handler) Command() string {
 	return "?yn "
 }
 
+//Usage how the command works
+func (h Handler) Usage() string {
+	return "Send a yes/no question to \\@everyone with prepopulated 👍 👎 reactions"
+}
+
 //Handle asks presents a prompt to @everyone and adds y/n emojis for easy response
 func (h *Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 	prompt := strings.TrimPrefix(m.Content, h.Command())

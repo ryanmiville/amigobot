@@ -30,5 +30,5 @@ func (h Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 	for i, v := range h.Handlers {
 		usages[i] = fmt.Sprintf("**%s**- %s", v.Command(), v.Usage())
 	}
-	s.ChannelMessageSend(m.ChannelID, strings.Join(usages, "\n"))
+	s.ChannelMessageSend(m.ChannelID, strings.Join(usages, "\n\n"))
 }

@@ -38,6 +38,11 @@ Decide between the given options, delimited by " or "
 
 ![?decide screenshot](https://user-images.githubusercontent.com/42191246/44006290-06b7a35c-9e50-11e8-9007-281e72530a9d.png)
 
+## ?help
+Lists the usage of each command
+
+![?help screenshot](https://user-images.githubusercontent.com/2359050/49352669-10f04600-f687-11e8-88ea-e67f9a2fe50f.png)
+
 # Contributing
 
 ## Getting Started

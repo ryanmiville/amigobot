@@ -1,16 +1,14 @@
-package help
+package spoiler
 
 import (
 	"testing"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/ryanmiville/amigobot"
 	"github.com/ryanmiville/amigobot/mock"
 )
 
-func TestHelp(t *testing.T) {
-	handlers := []amigobot.Handler{Handler{}, Handler{}}
-	h := Handler{Handlers: handlers}
+func TestGreet(t *testing.T) {
+	h := Handler{}
 	actual := &discordgo.Message{}
 	s := &mock.Session{
 		//Simply populate the 'actual' Message with values that would be sent with a real
@@ -23,7 +21,7 @@ func TestHelp(t *testing.T) {
 	}
 	h.Handle(s, &discordgo.MessageCreate{
 		Message: &discordgo.Message{
-			Content:   "?help",
+			Content:   "?spoiler Cody Burns:He's our guy",
 			ChannelID: "11390",
 		},
 	})
@@ -31,7 +29,7 @@ func TestHelp(t *testing.T) {
 	if actual.ChannelID != "11390" {
 		t.Errorf("Expected ChannelID: 11390 but received %v", actual.ChannelID)
 	}
-	if actual.Content != "**?help**- Lists the usage of each command.\n**?help**- Lists the usage of each command." {
-		t.Errorf("Expected Content: '**?help**- Lists the usage of each command.\n**?help**- Lists the usage of each command.' but received %v", actual.Content)
+	if actual.Embeds[0].Title != "Cody Burns Spoiler" {
+		t.Errorf("Expected Embed Title: 'Cody Burns Spoiler' but received %v", actual.Embeds[0].Title)
 	}
 }

@@ -17,10 +17,11 @@ import (
 	"github.com/ryanmiville/amigobot/mfp/htmlparse"
 	"github.com/ryanmiville/amigobot/mfp/macros"
 	"github.com/ryanmiville/amigobot/remindme"
+	"github.com/ryanmiville/amigobot/spoiler"
 	"github.com/ryanmiville/amigobot/yn"
 )
 
-//handlers is the list of MessageHandlers that will be checked for every message
+//Handlers is the list of MessageHandlers that will be checked for every message
 //sent in the channel (except the ones amigobot sends itself)
 var Handlers = []amigobot.Handler{
 	&cals.Handler{Fetcher: htmlparse.Fetcher{}},
@@ -29,6 +30,7 @@ var Handlers = []amigobot.Handler{
 	&greet.Handler{},
 	&remindme.Handler{},
 	&decide.Handler{},
+	&spoiler.Handler{},
 }
 
 // Variables used for command line parameters
@@ -66,6 +68,7 @@ func main() {
 }
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+	
 	if m.Author.ID == s.State.User.ID {
 		return
 	}

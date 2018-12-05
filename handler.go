@@ -10,6 +10,14 @@ type Session interface {
 	// content   : The message to send.
 	ChannelMessageSend(channelID string, content string) (*discordgo.Message, error)
 
+	// ChannelMessageSendEmbed sends a message to the given channel with embedded data.
+	// channelID : The ID of a Channel.
+	// embed     : The embed data to send.
+	ChannelMessageSendEmbed(channelID string, embed *discordgo.MessageEmbed) (*discordgo.Message, error)
+
+	// ChannelMessageDelete deletes a message from the Channel.
+	ChannelMessageDelete(channelID, messageID string) (err error)
+
 	// MessageReactionAdd creates an emoji reaction to a message.
 	// channelID : The channel ID.
 	// messageID : The message ID.

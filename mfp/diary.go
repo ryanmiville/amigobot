@@ -20,7 +20,7 @@ type Food struct {
 }
 
 //Fetcher is the interface for fetching a user's Diary
-//go generate counterfeiter . Fetcher
+//go:generate counterfeiter . Fetcher
 type Fetcher interface {
 	//Fetch fetches and builds the Diary for the given username
 	Fetch(username string) (*Diary, error)

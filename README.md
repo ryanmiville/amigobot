@@ -56,7 +56,7 @@ There is a code generation tool for new handlers, that you may find convenient. 
 1. Create your new `Handler` with `amigogen [name]`
 2. Fill in method stubs
 3. Make sure you update the companion test for your implementation details
-3. Add an instance of your `Handler` implementation to the `handlers` array in [main.go](cmd/amigobot/main.go)
+3. Add an instance of your `Handler` implementation to the `Handlers` array in [handlers.go](cmd/amigobot/handlers.go)
 
 See [greet.go](greet/greet.go) as a very simple example.
 

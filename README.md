@@ -64,9 +64,7 @@ See [greet.go](greet/greet.go) as a very simple example.
 run all tests with `go test ./...` to verify you haven't broken any command. Again follow the [greet example](greet/greet_test.go) to see how to mock the use of a real discord session.
 
 ## Running Locally
-In the `.../amigobot/cmd/amigobot` directory, run `go install`
-
-Now you should be able to run the app with `amigobot -t [your-bot-token]`
+After running `go install ./...` in the root directory, you should be able to run the app with `amigobot -t [your-bot-token]`
 
 [GoDoc]: https://godoc.org/github.com/ryanmiville/amigobot
 [GoDoc Widget]: https://godoc.org/github.com/ryanmiville/amigobot?status.svg

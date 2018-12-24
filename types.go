@@ -9,7 +9,7 @@ type Session interface {
 	// ChannelMessageSend sends a message to the given channel.
 	// channelID : The ID of a Channel.
 	// content   : The message to send.
-	ChannelMessageSend(channelID string, content string) (*discordgo.Message, error)
+	ChannelMessageSend(channelID, content string) (*discordgo.Message, error)
 
 	// ChannelMessageSendEmbed sends a message to the given channel with embedded data.
 	// channelID : The ID of a Channel.

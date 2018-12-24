@@ -33,7 +33,7 @@ type Session interface {
 
 //Handler describes a struct that is able to handle channel messages
 type Handler interface {
-	//Command is the string that triggers MessageHandle
+	//Command is the string that triggers Handle
 	//if at the beginning of the message content
 	Command() string
 	//Usage how the command works

@@ -12,7 +12,7 @@ import (
 	"github.com/ryanmiville/amigobot/yn"
 )
 
-//Handlers is the list of MessageHandlers that will be checked for every message
+//Handlers is the list of Handlers that will be checked for every message
 //sent in the channel (except the ones amigobot sends itself)
 var Handlers = []amigobot.Handler{
 	&cals.Handler{Fetcher: htmlparse.Fetcher{}},

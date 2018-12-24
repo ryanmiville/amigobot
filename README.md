@@ -50,7 +50,7 @@ This project requires Go 1.11+ modules for dependency management. [Here](https:/
 
 This project uses [counterfeiter](https://github.com/maxbrunsfeld/counterfeiter) to generate mocks for testing. The only one you'll probably be concerned with is [fake_session.go](amigobotfakes/fake_session.go). If you find that you need to add more methods from `discordgo.Session` to `amigobot.Session`, just make sure you have `counterfeiter` installed (`go get -u github.com/maxbrunsfeld/counterfeiter`), and run `go generate ./...` from the project root to add the new methods to the mock.
 
-There is a code generation tool for new handlers, that you may find convenient. Do `go install ./...` from the root directory to be able to use it.
+There is a code generation tool for new handlers that you may find convenient. Do `go install ./...` from the root directory to be able to use it.
 
 ## To Add A New Command...
 1. Create your new `Handler` with `amigogen [name]`

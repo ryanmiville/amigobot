@@ -53,7 +53,7 @@ This project uses [counterfeiter](https://github.com/maxbrunsfeld/counterfeiter)
 There is a code generation tool for new handlers, that you may find convenient. Do `go install ./...` from the root directory to be able to use it.
 
 ## To Add A New Command...
-1. Create your new `Handler` with `amigogen [name]
+1. Create your new `Handler` with `amigogen [name]`
 2. Fill in method stubs
 3. Make sure you update the companion test for your implementation details
 3. Add an instance of your `Handler` implementation to the `handlers` array in [main.go](cmd/amigobot/main.go)

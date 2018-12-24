@@ -4,31 +4,26 @@ import (
 	"testing"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/ryanmiville/amigobot/mock"
+	"github.com/ryanmiville/amigobot/amigobotfakes"
 )
 
-func TestGreet(t *testing.T) {
+func TestSpoiler(t *testing.T) {
 	h := Handler{}
 	actual := &discordgo.Message{}
-	s := &mock.Session{
-		//Simply populate the 'actual' Message with values that would be sent with a real
-		//discord session. This way we can compare the message 'h' created with what we expect
-		ChannelMessageSendFn: func(channelId, content string) (*discordgo.Message, error) {
-			actual.Content = content
-			actual.ChannelID = channelId
-			return actual, nil
-		},
+	s := &amigobotfakes.FakeSession{}
+	s.ChannelMessageSendStub = func(channelID, content string) (*discordgo.Message, error) {
+		actual.Content = content
+		return actual, nil
+	}
+	s.ChannelMessageSendEmbedStub = func(channelID string, embed *discordgo.MessageEmbed) (*discordgo.Message, error) {
+		actual.Embeds = append(actual.Embeds, embed)
+		return actual, nil
 	}
 	h.Handle(s, &discordgo.MessageCreate{
 		Message: &discordgo.Message{
-			Content:   "?spoiler Cody Burns:He's our guy",
-			ChannelID: "11390",
+			Content: "?spoiler Cody Burns:He's our guy",
 		},
 	})
-
-	if actual.ChannelID != "11390" {
-		t.Errorf("Expected ChannelID: 11390 but received %v", actual.ChannelID)
-	}
 	if actual.Embeds[0].Title != "Cody Burns Spoiler" {
 		t.Errorf("Expected Embed Title: 'Cody Burns Spoiler' but received %v", actual.Embeds[0].Title)
 	}

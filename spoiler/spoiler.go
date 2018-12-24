@@ -14,7 +14,7 @@ type Handler struct{}
 //Command is the string that triggers MessageHandle
 //if at the beginning of the message content
 func (h Handler) Command() string {
-	return "?spoiler"
+	return "?spoiler "
 }
 
 //Usage how the command works
@@ -29,15 +29,15 @@ func (h Handler) Handle(s amigobot.Session, m *discordgo.MessageCreate) {
 		s.ChannelMessageSend(m.ChannelID, "I couldn't delete your spoiler message. Sorry! "+err.Error())
 	}
 	content := strings.TrimPrefix(m.Content, h.Command())
-	topic := ""
+	var topic []string
 	spoil := content
 	split := strings.SplitN(content, ":", 2)
 	if len(split) == 2 {
-		topic, spoil = split[0], split[1]
+		topic, spoil = append(topic, split[0]), split[1]
 	}
 	encoded := strings.Replace(spoil, " ", "+", -1)
 	s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
-		Title:       strings.Join([]string{topic, "Spoiler"}, " "),
+		Title:       strings.Join(append(topic, "Spoiler"), " "),
 		Description: fmt.Sprintf("[Hover to View](https://dummyimage.com/600x400/000/fff&text=%s \"%s\")", encoded, spoil),
 	})
 }

@@ -48,6 +48,8 @@ Lists the usage of each command
 ## Getting Started
 This project requires Go 1.11+ modules for dependency management. [Here](https://github.com/golang/go/wiki/Modules) are docs for modules, including usage, adding, and upgrading modules. Simply `git clone` the project **outside** of your $GOPATH, and run `go build ./...` in the root of the project to download all necessary modules. Run `go test ./...` to verify everything is working properly.
 
+This project uses [counterfeiter](https://github.com/maxbrunsfeld/counterfeiter) to generate mocks for testing. The only one you'll probably be concerned with is [fake_session.go](amigobotfakes/fake_session.go). If you find that you need to add more methods from `discordgo.Session` to `amigobot.Session`, just make sure you have `counterfeiter` installed (`go get counterfeiter`), and run `go generate ./...` from the project root to add the new methods to the mock.
+
 ## To Add A New Command...
 1. Create a new package
 2. Implement the `Handler` interface found [here](handler.go).

@@ -50,10 +50,12 @@ This project requires Go 1.11+ modules for dependency management. [Here](https:/
 
 This project uses [counterfeiter](https://github.com/maxbrunsfeld/counterfeiter) to generate mocks for testing. The only one you'll probably be concerned with is [fake_session.go](amigobotfakes/fake_session.go). If you find that you need to add more methods from `discordgo.Session` to `amigobot.Session`, just make sure you have `counterfeiter` installed (`go get counterfeiter`), and run `go generate ./...` from the project root to add the new methods to the mock.
 
+There is a code generation tool for new handlers, that you may find convenient. Do `go install ./...` from the root directory to be able to use it.
+
 ## To Add A New Command...
-1. Create a new package
-2. Implement the `Handler` interface found [here](handler.go).
-3. Write a companion test for your new `Handler`
+1. Create your new `Handler` with `amigogen [name]`
+2. Fill in method stubs
+3. Make sure you update the companion test for your implementation details
 3. Add an instance of your `Handler` implementation to the `handlers` array in [main.go](cmd/amigobot/main.go)
 
 See [greet.go](greet/greet.go) as a very simple example.
@@ -62,9 +64,7 @@ See [greet.go](greet/greet.go) as a very simple example.
 run all tests with `go test ./...` to verify you haven't broken any command. Again follow the [greet example](greet/greet_test.go) to see how to mock the use of a real discord session.
 
 ## Running Locally
-In the `.../amigobot/cmd/amigobot` directory, run `go install`
-
-Now you should be able to run the app with `amigobot -t [your-bot-token]`
+After running `go install ./...` in the root directory, you should be able to run the app with `amigobot -t [your-bot-token]`
 
 [GoDoc]: https://godoc.org/github.com/ryanmiville/amigobot
 [GoDoc Widget]: https://godoc.org/github.com/ryanmiville/amigobot?status.svg

@@ -7,7 +7,7 @@ import (
 	"github.com/ryanmiville/amigobot/mock"
 )
 
-func testDecide(t *testing.T) {
+func TestDecide(t *testing.T) {
 	h := Handler{}
 	actual := &discordgo.Message{}
 	s := &mock.Session{
@@ -34,7 +34,7 @@ func testDecide(t *testing.T) {
 	}
 }
 
-func testDecideWithNoOptions(t *testing.T) {
+func TestDecideWithNoOptions(t *testing.T) {
 	h := Handler{}
 	actual := &discordgo.Message{}
 	s := &mock.Session{

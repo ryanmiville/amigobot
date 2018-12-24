@@ -32,6 +32,6 @@ func TestHelp(t *testing.T) {
 		t.Errorf("Expected ChannelID: 11390 but received %v", actual.ChannelID)
 	}
 	if actual.Content != "**?help**- Lists the usage of each command.\n**?help**- Lists the usage of each command." {
-		t.Errorf("Expected Content: 'Ho there, Frank so Dank!' but received %v", actual.Content)
+		t.Errorf("Expected Content: '**?help**- Lists the usage of each command.\n**?help**- Lists the usage of each command.' but received %v", actual.Content)
 	}
 }
